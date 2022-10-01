@@ -12,8 +12,8 @@ export class CineComponent implements OnInit {
   totalCine:number=0;
   limiteBoletos:number=0;
   bloqueo:string='';
-  descuento1:number=-0.10;
-  descuento2:number=-0.15;
+  descuento1:number=0.10;
+  descuento2:number=0.15;
 
   //Entradas del cliente
   nombreCli:string='';
@@ -32,9 +32,11 @@ export class CineComponent implements OnInit {
    if(this.cantidadClientes>0){
       this.limiteBoletos=this.cantidadClientes*7;
         // Limite de boletos
-        if(this.limiteBoletos/this.cantidadClientes>7)
+        if(this.limiteBoletos<this.boletos)
         {
           this.bloqueo=(`Venta máxima de 7 boleto por persona :(`);
+          this.boletos=0;
+          this.totalCine;
         }
         else if(this.limiteBoletos/this.cantidadClientes<=7){
               //calcular precio sin descuento por menos de 2 boletos
@@ -60,7 +62,7 @@ export class CineComponent implements OnInit {
                   }
               }
               //descuento de mas de 5 boletos pero no mas de 7
-              if(this.boletos/this.cantidadClientes>=5 && this.boletos/this.cantidadClientes<=7){
+              if(this.boletos/this.cantidadClientes>5 && this.boletos/this.cantidadClientes<=7){
                 this.totalCine=(this.boletos*12)-((this.boletos*12)*this.descuento2);
                   //validar descuento de tarjeta
                   if(this.tarjeta == 'si'){
@@ -82,5 +84,14 @@ export class CineComponent implements OnInit {
    
    
   
+  }
+
+  limpiar():void{
+    this.totalCine=0;
+    this.nombreCli='';
+    this.boletos=0;
+    this.cantidadClientes=0;
+    this.bloqueo='';
+    this.tarjeta='';
   }
   }
